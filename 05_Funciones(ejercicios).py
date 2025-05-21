@@ -135,7 +135,24 @@ try:
 except ValueError:
     print("Por favor, introduce un número entero válido.")
 
+#version Aitor
+def es_primo(numero):
+    if numero == 1:
+        return False
+    factor = 2
+    while factor < numero:
+        if numero % factor == 0:
+            print(f"{numero} no es primo", factor)
+            return False
+        factor += 1
+    return True
 
+def verifica_primo():
+    numero = int(input("Ingrese un número: "))
+    if es_primo(numero):
+        print(f"{numero} es primo")
+
+verifica_primo()
 
 
 
