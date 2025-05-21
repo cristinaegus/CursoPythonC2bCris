@@ -424,3 +424,12 @@ def adivina_el_numero():
             break
 
 adivina_el_numero()
+
+from Juego import adivina_el_numero
+adivina_el_numero()
+# esto importaria la funcion adivina_el_numero del archivo Juego.py
+# Hay otra importacion con * que importaria todo el contenido del archivo
+# pero no es recomendable porque puede dar problemas de nombres
+# y no es claro que se esta importando
+from Juego import *
+adivina_el_numero()
