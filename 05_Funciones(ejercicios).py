@@ -63,11 +63,14 @@ def es_primo(n):
             return False
     return True
 
-numero = int(input("Introduce un número para comprobar si es primo: "))
-if es_primo(numero):
-    print(f"{numero} es un número primo.")
-else:
-    print(f"{numero} no es un número primo.")
+try:
+    numero = int(input("Introduce un número para comprobar si es primo: "))
+    if es_primo(numero):
+        print(f"{numero} es un número primo.")
+    else:
+        print(f"{numero} no es un número primo.")
+except ValueError:
+    print("Por favor, introduce un número entero válido.")
 
 
 
@@ -169,6 +172,18 @@ print("Los primeros", n, "números de Fibonacci son:", fibonacci(n))
 Escribe una función que ordene una lista de números de manera ascendente 
 o descendente según la elección del usuario.
 """
+lista_numeros = [5, 2, 9, 1, 5, 6]
+def ordenar_lista(lista, orden='ascendente'):
+    if orden == 'ascendente':
+        return sorted(lista)
+    elif orden == 'descendente':
+        return sorted(lista, reverse=True)
+    else:
+        return "Orden no válido. Usa 'ascendente' o 'descendente'."
+
+orden = input("Ingresa 'ascendente' o 'descendente': ")
+print("Lista ordenada:", ordenar_lista(lista_numeros, orden))   
+
 
 
 # 8. Factorial:
@@ -176,6 +191,15 @@ o descendente según la elección del usuario.
 Crea una función para calcular el factorial de un número. 
 Pide al usuario que ingrese un número y muestra el resultado.
 """
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+n = int(input("Ingresa un número: "))
+print("El factorial de", n, "es:", factorial(n))
+
 
 # 9. Conversión de Temperatura:
 """
@@ -183,6 +207,21 @@ Implementa funciones para convertir entre Celsius y Fahrenheit.
 Pide al usuario que ingrese la temperatura y la unidad, y luego 
 realiza la conversión.
 """
+def celsius_a_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+def fahrenheit_a_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5/9
+
+temperatura = float(input("Ingresa la temperatura: "))
+unidad = input("Ingresa 'C' para Celsius o 'F' para Fahrenheit: ")
+
+if unidad.upper() == 'C':
+    print(f"{temperatura}°C es igual a {celsius_a_fahrenheit(temperatura)}°F")
+elif unidad.upper() == 'F':
+    print(f"{temperatura}°F es igual a {fahrenheit_a_celsius(temperatura)}°C")
+else:
+    print("Unidad no válida. Por favor, ingresa 'C' o 'F'.")    
 
 # 10. Juego de Adivinanzas:
 """
@@ -191,3 +230,19 @@ y el jugador tiene que adivinarlo.
 Proporciona pistas sobre si el número es mayor o menor. 
 Utiliza funciones para organizar el código.
 """
+import random
+def adivina_el_numero():
+    numero_secreto = random.randint(1, 100)
+    intentos = 0        
+    while True:
+        intento = int(input("Adivina el número entre 1 y 100: "))
+        intentos += 1
+        if intento < numero_secreto:
+            print("Demasiado bajo. Intenta de nuevo.")
+        elif intento > numero_secreto:
+            print("Demasiado alto. Intenta de nuevo.")
+        else:
+            print(f"¡Felicidades! Adivinaste el número en {intentos} intentos.")
+            break
+
+adivina_el_numero()
