@@ -279,6 +279,18 @@ def contar_palabras(oracion):
 oracion = input("Introduce una oración: ")
 print("Número de palabras:", contar_palabras(oracion))
 
+# Version Aitor
+def cuenta_palabras(frase):
+    contador = 0
+    for letra in frase:
+        if letra == " ":
+            contador += 1
+    return contador + 1
+def pide_palabras2(frase):
+    frase = input("Ingrese una frase: ")
+    print(f"La frase tiene {cuenta_palabras(frase)} palabras")
+pide_palabras2("frase")
+
 
 
 
