@@ -47,7 +47,21 @@ a = float(input("Ingresa el primer número: "))
 b = float(input("Ingresa el segundo número: "))
 print(calculadora(operacion, a, b))
 
-
+# opcion Aitor con diccionario
+def calculadora(operacion, a, b):
+    operaciones = {
+        1: operacion_suma,
+        2: operacion_resta,
+        3: operacion_multiplicacion,
+        4: operacion_division
+    }
+ 
+    opcion = input("Elige la operación: ")
+    if opcion not in operaciones:
+        return "Operación no válida"
+    
+    return operaciones.get(operacion, lambda x, y: "Operación no válida")(a, b)
+calculadora(operacion, a, b)
 
 # 2. Número Primo:
 """
