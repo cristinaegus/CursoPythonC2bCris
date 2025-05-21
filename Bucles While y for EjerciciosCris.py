@@ -44,18 +44,34 @@ def es_primo(n):
             return False
     return True
 
-#alternativa Cris 
+#alternativa Cris este esta bien
 numero = int(input("Introduce un número: "))
-suma_primos = 0
-contador = 2
+# while numero < 0:
+#     if numero % factor == 0:
+#         print(f "{numero} no es primo,.factor")
+#         break
+factor = 2
+es_primo = True
+while factor < numero:
+    if numero % factor == 0:
+        es_primo = False
+        break
+    factor += 1
+lista_primos = []
 
-while contador <= numero:
-    if es_primo(contador):
-        suma_primos += contador
-    contador += 1
+candidato_a_primo = 2  # Inicializamos el primer candidato a primo
 
-print(f"La suma de los números primos menores o iguales a {numero} es: {suma_primos}")
-
+while candidato_a_primo < numero:
+    es_primo = True
+    for factor in range(2, int(candidato_a_primo ** 0.5) + 1):
+        if candidato_a_primo % factor == 0:
+            es_primo = False
+            break
+    if es_primo:
+        lista_primos.append(candidato_a_primo)
+    candidato_a_primo += 1
+        
+    
 
 # 3. Tabla de multiplicar:
 """
@@ -66,7 +82,10 @@ input_num = int(input("Introduce un número para ver su tabla de multiplicar: ")
 for i in range(1, 11):
     resultado = input_num * i
     print(f"{input_num} x {i} = {resultado}")
-    
+  # Alternativa aitor esta bien  
+input_num = int(input("Introduce un número para ver su tabla de multiplicar: "))
+for i in range(1,numero + 1):
+   print(str(i) * i)
 
 
 # 4. Generador de patrones:
@@ -80,11 +99,12 @@ el número ingresado determine la cantidad de filas:
 333
 4444
 55555
-num_filas = int(input("Introduce un número para el patrón: "))
+66666
+num_filas = int(input("Introduce la cantidad de filas para el patrón: "))
 for i in range(1, num_filas + 1):
     print(str(i) * i)
 
-# 5. Adivina el número:
+# 5. Adivina el número:Correcto
 """
 Crea un juego en el que el programa genera un número aleatorio y el 
 usuario tiene que adivinarlo. Utiliza un bucle while para que el usuario 
@@ -94,4 +114,14 @@ usuario.
 """
 from random import randint
 
-randint(0, 100)
+numero_secreto = randint(0, 100)
+intento = None
+
+while intento != numero_secreto:
+    intento = int(input("Adivina el número (entre 0 y 100): "))
+    if intento < numero_secreto:
+        print("El número secreto es mayor.")
+    elif intento > numero_secreto:
+        print("El número secreto es menor.")
+    else:
+        print("¡Felicidades! Has adivinado el número.")
