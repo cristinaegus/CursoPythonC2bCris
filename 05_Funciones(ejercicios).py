@@ -328,6 +328,37 @@ def ordenar_lista(lista, orden='ascendente'):
 orden = input("Ingresa 'ascendente' o 'descendente': ")
 print("Lista ordenada:", ordenar_lista(lista_numeros, orden))   
 
+# Version Aitor
+max([5,4,72,5,3,6,])
+def ordenar_lista():
+    lista = [5, 2, 9, 1, 5, 6]
+    orden = input("¿Quieres ordenar la lista de forma ascendente o descendente? (a/d): ")
+    if orden == "a":
+        lista.sort()
+    elif orden == "d":
+        lista.sort(reverse=True)
+    else:
+        print("Opción no válida")
+    print(f"La lista ordenada es: {lista}")
+
+    # version 2 Aitor
+    max([5,4,72,5,3,6,])
+def ordenar_lista(lista,oden_ascendente=True):
+    lista_salida = []
+    if oden_ascendente:
+        while len (lista) > 0:
+            menor = min(lista)
+            lista.remove(menor)
+            lista_salida.append(menor)
+    else:
+        while len (lista) > 0:
+            mayor = max(lista)
+            lista.remove(mayor)
+            lista_salida.append(mayor)
+    return lista_salida
+print(ordenar_lista([5,4,72,5,3,6,],False))
+
+
 
 
 # 8. Factorial:
@@ -343,6 +374,9 @@ def factorial(n):
 
 n = int(input("Ingresa un número: "))
 print("El factorial de", n, "es:", factorial(n))
+
+# version Aitor con recursividad
+
 
 
 # 9. Conversión de Temperatura:
