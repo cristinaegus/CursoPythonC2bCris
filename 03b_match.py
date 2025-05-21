@@ -6,7 +6,6 @@ La sentencia `match` se utiliza para realizar diferentes acciones basadas en dif
 En lugar de escribir muchas sentencias `if..else`, puedes usar la sentencia `match`.
 La sentencia `match` selecciona uno de muchos bloques de código para ser ejecutado.
 """
-
 # Ejemplo básico de match
 # -------------------------
 # La expresión se evalúa y se compara con cada caso

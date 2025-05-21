@@ -48,20 +48,69 @@ b = float(input("Ingresa el segundo número: "))
 print(calculadora(operacion, a, b))
 
 # opcion Aitor con diccionario
-def calculadora(operacion, a, b):
-    operaciones = {
-        1: operacion_suma,
-        2: operacion_resta,
-        3: operacion_multiplicacion,
-        4: operacion_division
-    }
- 
-    opcion = input("Elige la operación: ")
-    if opcion not in operaciones:
-        return "Operación no válida"
-    
-    return operaciones.get(operacion, lambda x, y: "Operación no válida")(a, b)
-calculadora(operacion, a, b)
+print("""
+    Elige la operación a realizar:
+      1 = Suma
+      2 = Resta
+      3 = Multiplicación
+      4 = División
+""")
+
+def pedir_numeros():
+    num1 = int(input("Ingrese el primer número: "))
+    num2 = int(input("Ingrese el segundo número: "))
+    return num1, num2
+
+def sumar():
+    print("suma")
+    num1, num2 = pedir_numeros()
+    print(f"El resultado es: {num1 + num2}")
+
+def restar():
+    print("suma")
+    num1, num2 = pedir_numeros()
+    print(f"El resultado es: {num1 - num2}")
+
+def multiplicar():
+    print("suma")
+    num1, num2 = pedir_numeros()
+    print(f"El resultado es: {num1 * num2}")
+
+def dividir():
+    print("suma")
+    num1, num2 = pedir_numeros()
+    if num2 == 0:
+        print("No se puede dividir por cero")
+        return
+    else:
+        print(f"El resultado es: {num1 / num2}")
+
+def salir():
+    pass
+
+def calculadora():
+    while True:
+        print("""
+            Elige la operación a realizar:
+            1 = Suma
+            2 = Resta
+            3 = Multiplicación
+            4 = División
+            5 = Salir
+        """)
+        operaciones = {"1": sumar, "2": restar, "3": multiplicar, "4": dividir , "5": salir}
+        opcion = input("Ingrese la opción: ")
+        if opcion not in operaciones.keys():
+            print("Opción no válida")
+            continue
+        if opcion =="5":
+            break
+        else:
+            operacion = operaciones[opcion]
+            operacion()
+
+calculadora()
+
 
 # 2. Número Primo:
 """
