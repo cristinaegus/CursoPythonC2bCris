@@ -256,8 +256,14 @@ def invertir_cadena(cadena):
 texto = input("Introduce una cadena para invertir: ")
 print("Cadena invertida:", invertir_cadena(texto))
 
+# Version Aitor
 
-
+def invertir_cadena():
+    cadena = input("Ingrese una cadena: ")
+    cadena_invertida = ""
+    for letra in cadena:
+        cadena_invertida = letra + cadena_invertida
+    print(f"La cadena invertida es: {cadena_invertida}")    
 
 
 
