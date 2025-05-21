@@ -170,8 +170,10 @@ Opcion
     3 : Triángulo
 
 """)
+from  math import pi 
+
 def area_circulo(radio):
-    return 3.14 * radio ** 2
+    return pi * radio ** 2
 
 def area_cuadrado(lado):
     return lado ** 2
@@ -192,6 +194,50 @@ elif opcion == 3:
     print(f"El área del triángulo es: {area_triangulo(base, altura)}")    
 else:
     print("Opción no válida. Por favor, elige una figura válida.")  
+
+ # Version Aitor calculo de area
+from math import pi as PI
+
+
+def area_circulo():
+    radio = float(input("Ingrese el radio del círculo: "))
+    area = PI * radio ** 2
+    print(f"El área del círculo es: {area}")
+
+def area_cuadrado():
+    lado = float(input("Ingrese el lado del cuadrado: "))
+    area = lado ** 2
+    print(f"El área del cuadrado es: {area}")
+
+def area_triangulo():
+    base = float(input("Ingrese la base del triángulo: "))
+    altura = float(input("Ingrese la altura del triángulo: "))
+    area = (base * altura) / 2
+    print(f"El área del triángulo es: {area}")  
+
+def calculadora_areas():
+    while True:
+        print("""
+            Opcion
+                1 : Circulo
+                2 : Cuadrado
+                3 : Triángulo
+                q : Salir
+        """)
+        opcion = input("Ingrese la opción deseada: ")
+        match opcion:
+            case "1":
+                area_circulo()
+            case "2":
+                area_cuadrado()
+            case "3":
+                area_triangulo()
+            case "q":
+                print("Saliendo...")
+                break
+            case _:
+                print("Opción no válida")
+calculadora_areas()
 
 
 
