@@ -114,6 +114,9 @@ generador_de_primos = primos(0,100)
 
 [numero for numero in generador_de_primos if str(numero)[-1] == "7"]
 
+#lista_primos = []
+#for numero in generador_de_primos: compreension 
+
 
 #___________#
 # Ejercicio #
@@ -121,11 +124,50 @@ generador_de_primos = primos(0,100)
 # Crear un generador que busca en un archivo líneas que contengan una subcadena coincidente:
 # Usar ese generador para leer El Quijote, cuando el generador encuentre la palabra Quijote,
 # imprime la línea y para hasta que el usuario le da a "intro" (con un input vacío)
+generador_quijote = open("../CursoPythonC2bCris/datos/quijote.txt", "r", encoding="utf-8")
+def buscar_subcadena_en_archivo(archivo, subcadena):
+    with open(archivo, "r", encoding="utf-8") as f:
+        for linea in f:
+            if subcadena in linea:
+                yield linea.strip()
+                input("Presiona Enter para continuar...")
+                # Si el usuario presiona Enter, se detiene el generador
+                break    
+buscar_subcadena_en_archivo("../CursoPythonC2bCris/datos/quijote.txt", "Quijote")
+print("Fin del generador")
 
 
 #__________#
 # Solución #
 #----------#
 
+def buscar_lineas_con_subcadena(archivo_quijote, subcadena):
+    with open(archivo_quijote, "r", encoding="utf-8") as f:
+        for linea in f:
+            if subcadena in linea:
+                yield linea.strip()
 
+# Uso del generador para buscar "Quijote" en el archivo
+archivo_quijote = "../CursoPythonC2bCris/datos/quijote.txt"
+subcadena = "Quijote"
+generador_quijote = buscar_lineas_con_subcadena(archivo_quijote, subcadena)
+# Imprime cada línea que contiene la subcadena y espera a que el usuario presione Enter
+for linea in buscar_lineas_con_subcadena(archivo_quijote, subcadena):
+    print(linea, end="")
+    # Espera a que el usuario presione Enter para continuar
+    input("Presiona Enter para continuar...")
+
+
+
+
+
+
+
+
+
+#Version Aitor
+with open("../CursoPythonC2bCris/datos/quijote.txt", "r", encoding="utf-8") as archivo:
+       linea = archivo.readlines(1)  # Aquí puedes añadir el código que desees ejecutar con el archivo abierto
+       linea = archivo.readlines(2)     
+         
 
