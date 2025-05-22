@@ -43,7 +43,6 @@ Sin embargo las listas u otras colecciones, al ser tipos compuestos se pasan
 por referencia, y si las modificamos dentro de la función estaremos 
 modificándolas también fuera:
 """
-
 def doblar_valores(numeros):
     for i, n in enumerate(numeros):
         numeros[i] = 2 * numeros[i]
@@ -142,7 +141,7 @@ def factorial(n):
         return n * factorial(n - 1)
 
 # Ejemplo de uso
-resultado = factorial(5)
+resultado = factorial(50)
 print("El factorial de 5 es:", resultado)
 
 # Función que calcula el término n de la serie fibonacci

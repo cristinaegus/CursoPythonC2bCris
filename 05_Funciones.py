@@ -74,6 +74,9 @@ def suma1(x: int) -> int:
     y = x + 1
     return y
 
+suma1(12356)
+
+
 sumado = suma1(234)
 # El resultado se devuelve en la consola porque es el comportamiento de spyder,
 # pero lo normal es guardarlo para usarlo después...
@@ -97,7 +100,7 @@ def es_par(num: int) -> bool:
 
 es_par(124)
 es_par(1987)
-
+es_par()
 # ...o bien usarlo sin guardarlo.
 def imprime_si_es_par(num):
     if es_par(num):
@@ -133,7 +136,7 @@ def divisible(num1, num2):
         print(num1, "NO es divisible entre", num2)
         return False
 
-es_divisible = divisible(31, 5)
+es_divisible = divisible(30, 5)
 
 
 ##################################################################
@@ -219,7 +222,7 @@ def imprime_lineas(a, *lineas):
 
 num1 =3
 imprime_lineas("Puedo imprimir", "las líneas", "que quiera", "fin", num1)
-imprime_lineas("a")
+imprime_lineas()
 
 # Podría hacerlo con una lista
 def imprime_lineas_con_lista(lista):
@@ -229,7 +232,7 @@ def imprime_lineas_con_lista(lista):
 lista_a_imprimir = ("Puedo imprimir", "las líneas", "que quiera")
 imprime_lineas_con_lista(lista_a_imprimir)
 
-imprime_lineas_con_lista(["Puedo imprimir", "las líneas", "que quiera"])
+imprime_lineas_con_lista(("Puedo imprimir", "las líneas", "que quiera"))
 
 # pero conviene saber lo que significa el asterisco porque aparece en la
 # documentación de las funciones que importaremos
@@ -249,4 +252,4 @@ def imprime_lineas_con_diccionario(diccionario):
 diccionario = {"nombre":'Juan', "edad":30, "ciudad":'Madrid'}
 imprime_lineas_con_diccionario(diccionario)
 
-imprime_lineas_con_diccionario(nombre='Juan', edad=30, ciudad='Madrid', calle = "calle")
+imprime_lineas_con_diccionario(dict(nombre='Juan', edad=30, ciudad='Madrid', calle = "calle"))
