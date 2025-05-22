@@ -8,7 +8,7 @@ Pistas:
 Usa la función open() para abrir el fichero.
 Usa el método .read() para leer todo el contenido de una sola vez.
 '''
-fichero = open("/Datos/poemas.txt", "r", encoding="utf-8")
+fichero = open("../CursoPythonC2bCris/datos/poema.txt", "r", encoding="utf-8")
 contenido = fichero.read()
 print(contenido)
 fichero.close()
@@ -56,7 +56,7 @@ Pistas:
 Usa un bucle for para recorrer cada línea del fichero.
 
 '''
-fichero = open("datos/poema.txt", "r")
+fichero = open("../CursoPythonC2bCris/datos/poema.txt", "r")
 for linea in fichero:
     print(linea.strip())  # .strip() elimina los saltos de línea al final de cada línea
 fichero.close()
@@ -69,8 +69,16 @@ Si el fichero no se encuentra, muestra el mensaje "Error: El archivo no existe."
 Pistas:
 Usa try-except para manejar la excepción FileNotFoundError.
 '''
+try:
+    fichero = open("datos/archivo_inexistente.txt", "r")
+    contenido = fichero.read()
+    print(contenido)
+    fichero.close()
+except FileNotFoundError:
+    print("Error: El archivo no existe.")
 
 '''
+
 Ejercicio 6: Contar líneas y palabras en un fichero
 Objetivo: Crea un script que cuente el número de líneas y el número total de palabras en un fichero llamado texto.txt.
 Abre el fichero en modo lectura.
@@ -81,7 +89,19 @@ Pistas:
 Usa el método .split() para dividir una línea en palabras.
 Utiliza un contador para sumar las palabras.
 
+
 '''
+with open("../CursoPythonC2bCris/datos/poema.txt", "r", encoding="utf-8"):
+    lineas = fichero.readlines()
+    print("El fichero tiene {} lineas".format(len(lineas)))
+    palabras = 0
+    for linea in lineas:
+        palabras += len(linea.split())
+  
+fichero.close()
+print("El fichero tiene {} lineas y {} palabras".format(fichero.count, fichero.palabras))
+
+
 
 '''
 
@@ -93,5 +113,22 @@ Muestra cuántas veces aparece la palabra en el fichero.
 Pistas:
 Usa el método .count() para contar las apariciones de la palabra en cada línea.
 
-
 '''
+with open("../CursoPythonC2bCris/datos/poema.txt", "r", encoding="utf-8"):
+    palabra_buscada = input("Introduce la palabra a buscar: ")
+    contador = 0
+    for linea in fichero:
+        contador += linea.count(palabra_buscada)
+    fichero.contador = contador
+fichero.close()
+print("La palabra {} aparece {} veces en el fichero".format(palabra_buscada, fichero.contador))
+
+# version Aitor 
+def contar_palabra_en_fichero(fichero, palabra):
+    with open(fichero, "r", encoding="utf-8") as f:
+        contenido = f.read()
+        contador = contenido.count(palabra)
+    return contador
+contar_palabra_en_fichero("../CursoPythonC2bCris/datos/poema.txt", "la")
+
+ 

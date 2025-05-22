@@ -193,3 +193,37 @@ c.agregar(Pelicula("Prueba", 100, 2005))
 
 # Mostramos el catálogo de nuevo
 c.mostrar()
+'''
+ejercicio = 8
+Leer las lineas del poema y guardarlas en en un pickle
+Objetivo : Crear un script que lea las lienas del fichero poema.txt y las guarde en una 
+fichero binario poema.pckl
+El script debe ser capaz de leer el fichero poema.pckl y mostrar el contenido por pantalla
+'''
+import pickle
+def guardar_lineas_en_pickle(fichero_entrada, fichero_salida):
+    
+    with open(fichero_entrada, "r", encoding="utf-8") as f_entrada:
+        lineas = f_entrada.readlines()
+        with open(fichero_salida, "wb") as f_salida:
+            pickle.dump(lineas, f_salida)
+    return lineas
+def leer_lineas_de_pickle(fichero_salida):
+    with open(fichero_salida, "rb") as f_salida:
+        lineas = pickle.load(f_salida)
+    return lineas
+def mostrar_lineas(lineas):
+    for linea in lineas:
+        print(linea.strip())
+if __name__ == "__main__":
+    fichero_entrada = "../CursoPythonC2bCris/datos/poema.txt"
+    fichero_salida = "poema.pckl"
+    
+    # Guardar las líneas en un fichero binario
+    lineas = guardar_lineas_en_pickle(fichero_entrada, fichero_salida)
+    
+    # Leer las líneas del fichero binario
+    lineas_leidas = leer_lineas_de_pickle(fichero_salida)
+    
+    # Mostrar las líneas por pantalla
+    mostrar_lineas(lineas_leidas)       
