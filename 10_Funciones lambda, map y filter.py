@@ -154,18 +154,40 @@ lista_num3 = list(iterable3)
 # Ejercicio #
 #-----------#
 # Crear una lista con los números de 0 al 100.
+lista_num = list(range(0, 101))
+print(lista_num)
 
 
 # Dividirlos entre tres con map y una función lambda.
+lista_num3 = list(map(lambda x: x/3, lista_num))
+print(lista_num3)
 
+'''
+En este fragmento de código, se utiliza la función `map` junto con una función lambda para transformar 
+los elementos de una lista llamada `lista_num`. 
+La función lambda `lambda x: x/3` toma cada elemento `x` de la lista y lo divide por 3. La función `map` aplica esta operación a cada elemento de `lista_num`, generando un objeto iterable con los resultados.
+
+Luego, la función `list()` convierte ese objeto iterable en una lista de Python,
+ almacenando el resultado en la variable `lista_num3`. Finalmente, 
+ se imprime el contenido de `lista_num3` usando la función `print`, 
+ mostrando la lista resultante en la salida estándar.
+
+Un aspecto importante a notar es que `map` no devuelve directamente una lista, 
+sino un objeto iterable. Por eso es necesario envolverlo con `list()` para poder ver 
+y manipular los resultados como una lista convencional. 
+Además, el uso de una función lambda permite definir la operación de división de manera concisa 
+y sin necesidad de crear una función aparte.
+'''
 
 # Filtrar los que tienen parte decimal con una función lambda.
+
 
 
 #__________#
 # Solución #
 #----------#
-
+filter(lambda x: x % 1 != 0, lista_num3)
+print(lista_num3)
 
 #___________#
 # Ejercicio #
@@ -175,9 +197,16 @@ import random
 edades = [random.randint(-7, 130) for i in range(500)]
 edades.count(-3)
 edades.count(121)
+print(edades)
+
 
 
 # Usar filter para eliminar los valores
+filter(lambda x: x > 0 and x < 121, edades)
 
 
 # Usar map para sustituirlos por 120 o 0
+edades = list(map(lambda x: 120 if x > 120 else 0 if x < 0 else x, edades))
+print(edades)
+
+
