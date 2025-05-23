@@ -297,3 +297,26 @@ lista_compra()
 6. Muestra las 10 palabras más frecuentes y su conteo.
 7. Maneja la excepción `FileNotFoundError`.
 """
+
+def carga_archivo(nombre_archivo):
+    try:
+        with open(nombre_archivo, 'r') as archivo:
+            contenido = archivo.read()
+            return contenido
+    except FileNotFoundError:
+        print("El archivo no existe.")
+        return None
+
+def limpiar_texto(texto):
+    texto = texto.lower()
+    texto = texto.replace(",", "").replace(".", "").replace(";", "").replace(":", "").replace("!", "").replace("?", "")
+    texto = texto.replace("\n", " ")
+    return texto
+
+def dividir_texto(texto):
+    palabras = texto.split()
+    return palabras
+
+dividir_texto(limpiar_texto(carga_archivo("lista_compra.txt")))
+
+carga_archivo("lista_compra.txt").limpiar_texto().dividir_texto()
