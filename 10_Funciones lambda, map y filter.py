@@ -202,8 +202,12 @@ print(edades)
 
 
 # Usar filter para eliminar los valores
-filter(lambda x: x > 0 and x < 121, edades)
-
+def edades_validas(edad):
+    return not (edad >120 or edad < 0)
+lambda edad : not (edad >120 or edad < 0)
+edades_validas = list(filter(lambda edad: not (edad >120 or edad < 0), edades))
+edades_validas.count(-3)
+edades_validas.count(121)
 
 # Usar map para sustituirlos por 120 o 0
 edades = list(map(lambda x: 120 if x > 120 else 0 if x < 0 else x, edades))
