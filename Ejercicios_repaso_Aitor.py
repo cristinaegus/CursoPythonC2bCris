@@ -250,13 +250,22 @@ aplicacion()
 8. Utiliza el bloque `with open(...)` para asegurar que los archivos se cierren correctamente.
 9. Utiliza `try-except` para manejar posibles `FileNotFoundError` si el archivo no existe al intentar leerlo por primera vez (en ese caso, simplemente informa que no hay tareas).
 """
-
-
 def mostrar_lista_compra(lista_compra):
     print("\nLista de compra completa:")
     for indice, producto in enumerate(lista_compra, start=1):
         print(f"{indice}. {producto}")
     print(f"\nTotal de productos: {len(lista_compra)}")
+    with open('lista_compra.txt', 'w') as archivo:
+        for producto in lista_compra:
+            archivo.write(producto + '\n')
+
+def cargar_lista_compra():
+    try:
+        with open('lista_compra.txt', 'r') as archivo:
+            return [linea.strip() for linea in archivo]
+    except FileNotFoundError:
+        return []
+
 
 def llena_lista_compra(lista_compra):
     for i in range(5):
@@ -265,26 +274,54 @@ def llena_lista_compra(lista_compra):
             mostrar_lista_compra(lista_compra)
             break
         lista_compra.append(producto)
+    mostrar_lista_compra(lista_compra)
 
-def lista_compra():
-    lista_compra = []
+def eliminar_producto(lista_compra):
+    producto_eliminar = input("Ingrese el número del producto a eliminar: ")
+    if producto_eliminar in lista_compra:
+        lista_compra.remove(producto_eliminar)
+    else:
+        lista_compra.pop(int(producto_eliminar)-1)
+    mostrar_lista_compra(lista_compra)
+    return input("\n¿Desea eliminar algún producto más? (s/n): ").lower()
+
+def mostrar_menu():
+    print("\nMenú:")
+    print("1. Agregar producto")
+    print("2. Eliminar producto")
+    print("3. Mostrar lista")
+    print("4. Salir")
+    return input("Ingrese una opción: ")
+
+def menu(lista_compra):
+    while True:
+        opcion = mostrar_menu()
+        match opcion:
+            case '1':
+                llena_lista_compra(lista_compra)
+                mostrar_lista_compra(lista_compra)
+            case '2':
+                eliminar_producto(lista_compra)
+            case '3':
+                mostrar_lista_compra(lista_compra)
+            case '4':
+                print("Saliendo del programa...")
+                break
+            case _:
+                print("Opción no válida. Intente de nuevo.")
+
+
+def gestor_lista_compra():
+    lista_compra = cargar_lista_compra()
     if not lista_compra:
         print("La lista está vacía, ingrese 5 productos")
         llena_lista_compra(lista_compra)
     else: 
         mostrar_lista_compra(lista_compra)
+        menu(lista_compra)
 
-    eliminar = input("\n¿Desea eliminar algún producto? (s/n): ").lower()
-    if eliminar == 's':
-        producto_eliminar = input("Ingrese el número del producto a eliminar: ")
-        if producto_eliminar in lista_compra:
-            lista_compra.remove(producto_eliminar)
-            mostrar_lista_compra(lista_compra)
-        else:
-            lista_compra.pop(int(producto_eliminar)-1)
-            mostrar_lista_compra(lista_compra)
         
-lista_compra()
+gestor_lista_compra()
 
 
 #Desafío: Contador de Palabras en un Archivo#
@@ -319,4 +356,40 @@ def dividir_texto(texto):
 
 dividir_texto(limpiar_texto(carga_archivo("lista_compra.txt")))
 
-carga_archivo("lista_compra.txt").limpiar_texto().dividir_texto()
+def contar_palabras(palabras):
+    frecuencia = {}
+    for palabra in palabras:
+        if palabra in frecuencia:
+            frecuencia[palabra] += 1
+        else:
+            frecuencia[palabra] = 1
+    return frecuencia
+
+"""
+frecuencia.items():
+    Convierte el diccionario en una lista de tuplas (clave, valor).
+
+    Ejemplo: {'a': 5, 'b': 3} → [('a', 5), ('b', 3)]
+
+sorted() con key=lambda item: item[1]:
+    Ordena la lista de tuplas según los valores (frecuencias).
+
+    item[1] se refiere al segundo elemento de cada tupla (el valor numérico).
+
+    lambda es una función anónima que define el criterio de ordenación.
+
+reverse=True:
+    Ordena en orden descendente (de mayor a menor frecuencia).
+
+[:n]:
+    Toma los primeros n elementos de la lista ordenada.
+
+Retorno:
+    Devuelve una lista con las n tuplas (palabra, frecuencia) más frecuentes.
+"""
+
+def palabras_mas_frecuentes(frecuencia, n=10):
+    palabras_ordenadas = sorted(frecuencia.items(), key=lambda item: item[1], reverse=True)
+    return palabras_ordenadas[:n]
+
+palabras_mas_frecuentes(contar_palabras(dividir_texto(limpiar_texto(carga_archivo("lista_compra.txt")))))

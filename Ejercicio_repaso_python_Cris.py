@@ -274,6 +274,6 @@ def contador_palabras():
     except FileNotFoundError:
         print(f"El archivo '{nombre_archivo}' no existe.")
 
-if __name__ == "__main__":
     contador_palabras()
+    
     
