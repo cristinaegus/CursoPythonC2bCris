@@ -269,9 +269,7 @@ def funcion_ejemplo(a, b):
     return a * b
 
 # Ejemplo de uso del decorador
-funcion_ejemplo(3, 4)
-
-
+funcion_ejemplo(5, 4)
 
 
 
@@ -284,11 +282,15 @@ def validar_salida(func):
     # Este decorador valida que la salida de la función sea un número
     def funcion_validada(*args, **kwargs):
         resultado = func(*args, **kwargs)
-        if isinstance(resultado, (int, float)):
-            return resultado
-        else:
-            return "La salida no es un número"
+        if  not isinstance(resultado, (int, float)):
+            raise ValueError("La salida no es un número")
+       
     return funcion_validada
+
 @validar_salida
 def suma(a, b):
     return a + b
+
+# Ejemplo de uso del decorador
+suma(7, 4)
+suma("hola", 4)  # Mostrará el mensaje de error
