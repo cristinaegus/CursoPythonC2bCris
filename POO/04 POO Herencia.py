@@ -282,7 +282,8 @@ class Peon(Empleado):
             print(f"{self.nombre} ha fichado tarde. Asignando {cantidad} guardias.")    
         self.guardias += cantidad
         print(f"{self.nombre} ha recibido {cantidad} guardias. Total guardias: {self.guardias}")
-    asignar_guardias()
+        # Con cada guardia el peón cobra 10 euros
+        print(f"{self.nombre} ha cobrado {cantidad * 10} euros por {cantidad} guardias. Total guardias: {self.guardias}")   
 
 personal(empleado_directivo("Juan"))
 personal(empleado_oficinista("Ana"))
@@ -300,3 +301,38 @@ luis_peon.asignar_guardias()
 print(isinstance(juan_directivo, Directivo))  # True
 print(isinstance(ana_oficinista, Oficinista))  # True
 print(isinstance(luis_peon, Peon))  # True
+
+
+# Codigo Aitor 
+director = Directivo('Juan', 'Pérez', 'López')
+
+secretario = Oficinista('Juanito', 'Pérez', 'García')
+
+# El directivo, tiene coche de empresa, y métodos asociados a él.
+director.coche_empresa = Coche("Mercedes", "Maybach", 4.5,100000)
+director.asigna_gasolina(300)
+
+director.ficha()
+director.ficha()
+director.calcula_trabajo()
+director.calcula_sueldo()
+director.coche_empresa.marca
+director.coche_empresa.presentarse()
+
+# El oficinista tiene bonuses
+secretario = Oficinista('Juanito', 'Pérez', 'García')
+secretario.ficha()
+secretario.ficha()
+secretario.calcula_trabajo()
+secretario.asigna_bonus(100)
+secretario.calcula_sueldo()
+
+
+# El peón tiene guardias... etc
+peon = Peon('Pepe', 'Pérez', 'García')
+
+
+peon.ficha()
+peon.guardias
+peon.ficha()
+peon.guardias

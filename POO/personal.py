@@ -1,22 +1,21 @@
+from abc import ABC, abstractmethod
 import datetime
+import time
 
-class Persona:
+# Clase abstracta Persona
+class Persona(ABC):
     def __init__(self, nombre, apellido1, apellido2, sueldo_hora=10):
-        # Características
         self.nombre = nombre
         self.apellido1 = apellido1
         self.apellido2 = apellido2
-        # Estados
         self.trabajando = False
         self.ubicacion = "Rentería"
         self.fichajes = []
         self.sueldo_hora = sueldo_hora
         self.bono_transporte = 0
 
-    # Los métodos son funciones con "self"
     def presentarse(self):
-        print(
-            f'Hola, mi nombre es {self.nombre} {self.apellido1} {self.apellido2}')
+        print(f'Hola, mi nombre es {self.nombre} {self.apellido1} {self.apellido2}')
 
     def ficha(self):
         print("Biip, Biiiiip")
@@ -35,90 +34,75 @@ class Persona:
         tiempo_trabajado = sum([salida - entrada for entrada, salida in zip(entradas, salidas)], start=tiempo_inicial)
         print(f"Tiempo trabajado: {tiempo_trabajado}")
         return tiempo_trabajado
-    
+
+    @abstractmethod
+    def calcula_sueldo(self):
+        pass
+
+# Solo se pueden instanciar las subclases:
+class Directivo(Persona):
+    def __init__(self, nombre, apellido1, apellido2, sueldo_hora=10):
+        super().__init__(nombre, apellido1, apellido2, sueldo_hora)
+        self.coche_empresa = True
+
     def calcula_sueldo(self):
         tiempo_trabajado = self.calcula_trabajo()
         sueldo = tiempo_trabajado.total_seconds() / 3600 * self.sueldo_hora
-       
-        sueldo = self.bonus
-        print(f"Sueldo: {sueldo}")
-        return sueldo
+        sueldo_total = sueldo + self.bono_transporte
+        print(f"Sueldo Directivo: {sueldo:.2f} € + Dieta transporte: {self.bono_transporte} € = Total: {sueldo_total:.2f} €")
+        return sueldo_total
 
-import time
-if __name__ == "__main__":
-    director = Persona('Juan', 'Pérez', 'López')
-    secretario = Persona('Juanito', 'Pérez', 'García')
-
-    director.ficha()
-    time.sleep(2)
-    director.ficha()
-    print(director.fichajes)
-    #print(director.calcula_trabajo())
-    print(director.calcula_sueldo())
-
-
-class Empleado:
-    def __init__(self, nombre, cargo):
-        self.nombre = nombre
-        self.cargo = cargo
-
-def personal(empleado):
-    # Aquí puedes acceder a los atributos o métodos del objeto empleado directamente
-    print(f"Empleado: {empleado.nombre}, Cargo: {empleado.cargo}")
-
-def empleado_directivo(nombre):
-    return Empleado(nombre, "Directivo")
-print(empleado_directivo("Juan").cargo)
-
-def empleado_oficinista(nombre):
-    return Empleado(nombre, "Oficinista")
-print(empleado_oficinista("Ana").cargo)
-
-def empleado_peon(nombre):
-    return Empleado(nombre, "Peón")
-print(empleado_peon("Luis").cargo)
-
-# El directivo, tiene coche de empresa, y métodos asociados a él.
-# El oficinista tiene bonuses
-# El peón tiene guardias... etc
-class Directivo(Empleado):
-    def __init__(self, nombre):
-        super().__init__(nombre, "Directivo")
-        self.coche_empresa = True
-
-    def asignar_coche(self):
-        print(f"{self.nombre} tiene coche de empresa.")    
-
-class Oficinista(Empleado):
-    def __init__(self, nombre):
-        super().__init__(nombre, "Oficinista")
+class Oficinista(Persona):
+    def __init__(self, nombre, apellido1, apellido2, sueldo_hora=10):
+        super().__init__(nombre, apellido1, apellido2, sueldo_hora)
         self.bonus = 0
 
     def asignar_bonus(self, cantidad):
         self.bonus += cantidad
         print(f"{self.nombre} ha recibido un bonus de {cantidad}. Total bonus: {self.bonus}")
 
-class Peon(Empleado):
-    def __init__(self, nombre):
-        super().__init__(nombre, "Peón")
+    def calcula_sueldo(self):
+        tiempo_trabajado = self.calcula_trabajo()
+        sueldo = tiempo_trabajado.total_seconds() / 3600 * self.sueldo_hora
+        sueldo_total = sueldo + self.bono_transporte + self.bonus
+        print(f"Sueldo Oficinista: {sueldo:.2f} € + Dieta transporte: {self.bono_transporte} € + Bonus: {self.bonus} € = Total: {sueldo_total:.2f} €")
+        return sueldo_total
+
+class Peon(Persona):
+    def __init__(self, nombre, apellido1, apellido2, sueldo_hora=10):
+        super().__init__(nombre, apellido1, apellido2, sueldo_hora)
         self.guardias = 0
 
     def asignar_guardias(self, cantidad):
         self.guardias += cantidad
         print(f"{self.nombre} ha recibido {cantidad} guardias. Total guardias: {self.guardias}")
 
-personal(empleado_directivo("Juan"))
-personal(empleado_oficinista("Ana"))
-personal(empleado_peon("Luis"))
-# Creando instancias de las clases heredadas
-juan_directivo = Directivo("Juan")
-ana_oficinista = Oficinista("Ana")
-luis_peon = Peon("Luis")
-juan_directivo.asignar_coche()
-ana_oficinista.asignar_bonus(500)
-luis_peon.asignar_guardias(5)
+    def calcula_sueldo(self):
+        tiempo_trabajado = self.calcula_trabajo()
+        sueldo = tiempo_trabajado.total_seconds() / 3600 * self.sueldo_hora
+        sueldo_total = sueldo + self.bono_transporte + (self.guardias * 10)
+        print(f"Sueldo Peón: {sueldo:.2f} € + Dieta transporte: {self.bono_transporte} € + Guardias: {self.guardias*10} € = Total: {sueldo_total:.2f} €")
+        return sueldo_total
 
-# Verificando las instancias
-print(isinstance(juan_directivo, Directivo))  # True
-print(isinstance(ana_oficinista, Oficinista))  # True
-print(isinstance(luis_peon, Peon))  # True
+# Ejemplo de uso:
+if __name__ == "__main__":
+    jefe = Directivo('Ana', 'García', 'López')
+    oficinista = Oficinista('Luis', 'Martínez', 'Ruiz')
+    peon = Peon('Pedro', 'López', 'Sánchez')
+
+    jefe.ficha()
+    time.sleep(1)
+    jefe.ficha()
+    jefe.calcula_sueldo()
+
+    oficinista.ficha()
+    time.sleep(1)
+    oficinista.ficha()
+    oficinista.asignar_bonus(200)
+    oficinista.calcula_sueldo()
+
+    peon.ficha()
+    time.sleep(1)
+    peon.ficha()
+    peon.asignar_guardias(3)
+    peon.calcula_sueldo()
