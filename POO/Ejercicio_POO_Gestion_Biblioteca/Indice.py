@@ -40,6 +40,7 @@ usuario agregar materiales, listar materiales y mostrar información detallada d
 específico. '''
 '''
 ## Pasos para la Resolución del Ejercicio:
+
 #1. Definir la Clase Abstracta MaterialBiblioteca :
 Atributos comunes: titulo , autor , codigo_inventario .
 Métodos comunes: mostrar_info (método abstracto).
@@ -56,6 +57,9 @@ Implementar el método mostrar_info .
 DVD:
 Atributos adicionales: duracion , formato .
 Implementar el método mostrar_info .
+#########################################################################
+
+
 3. Implementar Encapsulamiento:
 Proteger los atributos con __ (doble guion bajo) y proporcionar métodos getters y setters .
 4. Utilizar Polimorfismo:
