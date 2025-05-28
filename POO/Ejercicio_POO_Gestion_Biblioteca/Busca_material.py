@@ -1,14 +1,4 @@
-#Crea una interfaz de usuario simple (por ejemplo, un menú en la consola) que permita al
-#usuario agregar materiales, listar materiales y mostrar información detallada de un material
-#específico. '''
-#Menú principal con opciones para:
-#Agregar un nuevo material (libro, revista o DVD).
-#Listar todos los materiales en la biblioteca.
-#Mostrar información detallada de un material específico.
-#Salir del programa.
-
-
-
+# Busca_material.py
 from Ejercicio_POO_Gestion_Biblioteca.MaterialBiblioteca import Libro, Revista, DVD
 
 from MaterialBiblioteca import Libro, Revista, DVD
