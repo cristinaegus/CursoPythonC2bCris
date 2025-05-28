@@ -1,80 +1,107 @@
 #1. Definir la Clase Abstracta MaterialBiblioteca :
 #Atributos comunes: titulo , autor , codigo_inventario .
 #Métodos comunes: mostrar_info (método abstracto).
-class MaterialBiblioteca:
-    def comun__init__(self, titulo, autor, codigo_inventario):
-        self.titulo = titulo
-        self.autor = autor
-        self.codigo_inventario = codigo_inventario
-
-    def adicional_info_libro(self, numero_paginas):
-        self.numero_paginas = numero_paginas
-        if not isinstance(numero_paginas, int) or numero_paginas <= 0:
-            raise ValueError("El número de páginas debe ser un entero positivo.")   
-        return f"Este libro tiene {numero_paginas} páginas."
-    def adicional_info_revista(self, numero_edicion, fecha_publicacion):
-        self.numero_edicion = numero_edicion
-        self.fecha_publicacion = fecha_publicacion
-        if not isinstance(numero_edicion, int) or numero_edicion <= 0:
-            raise ValueError("El número de edición debe ser un entero positivo.")
-        return f"Esta revista es la edición {numero_edicion} publicada en {fecha_publicacion}."
-    def adicional_info_dvd(self, duracion, formato):
-        self.duracion = duracion
-        self.formato = formato
-        return f"Este DVD tiene una duración de {duracion} minutos y un formato de {formato}."
-    
-
-    def __str__(self):
-        return f"{self.titulo} por {self.autor}, codigo de inventario: {self.codigo_inventario},"
-    
-    def get_titulo(self):
-        return self.titulo
-    
-    def get_autor(self):
-        return self.autor
-    def get_numero_paginas(self):
-        return self.numero_paginas
-    
-    def get_codigo_inventario(self):
-        return self.codigo_inventario  
-
-    def get_numero_edicion(self):
-        return self.numero_edicion  
-    def get_fecha_publicacion(self):
-        return self.fecha_publicacion
-    def get_duracion(self):
-        return self.duracion
-    def get_formato(self):
-        return self.formato
 from abc import ABC, abstractmethod
+
 class MaterialBiblioteca(ABC):
+    def __init__(self, titulo, codigo_inventario, ubicacion):
+        self.titulo = titulo
+        self.__ubicacion = ubicacion
+        self.codigo_inventario = codigo_inventario
+        self.disponible = True
+
+    @property
+    def ubicacion(self):
+        print(f"Tienes permiso para ver la ubicacion del item '{self.titulo}'.")
+        return self.__ubicacion
+    
+    @ubicacion.setter
+    def ubicacion(self, nueva_ubicacion):
+        print(f"Compruebo que la ubicación está disponible para el item '{self.titulo}'.")
+        self.__ubicacion = nueva_ubicacion
+
+    def trasladar(self, nueva_ubicacion):
+        self.ubicacion = nueva_ubicacion
+        print(f"El item '{self.titulo}' ha sido trasladado a '{nueva_ubicacion}'.")
+
+    def prestar(self):
+        if self.disponible:
+            self.disponible = False
+            print(f"El item '{self.titulo}' ha sido prestado.")
+        else:
+            print(f"El item '{self.titulo}' no está disponible.")
+
+    def devolver(self):
+        self.disponible = True
+        print(f"El item '{self.titulo}' ha sido devuelto.")
+    
     @abstractmethod
     def mostrar_info(self):
-        pass 
+        print(f"Título: {self.titulo}")
+        print(f"Código de inventario: {self.codigo_inventario}")
+        print(f"Ubicación: {self.ubicacion}")
+        print(f"Disponible: {'Sí' if self.disponible else 'No'}")
 
-    def libro(self):
-        return f"Libro: {self.titulo} por {self.autor}, codigo de inventario: {self.codigo_inventario},tiene {self.numero_paginas}, " 
 
-    def revista(self):
-        return f"Revista: {self.titulo}, edicion {self.numero_edicion}, codigo de inventario: {self.codigo_inventario}, "
-    def dvd(self):
-        return f"DVD: {self.titulo}, duracion {self.duracion} minutos, formato {self.formato}, codigo de inventario: {self.codigo_inventario}, "   
-    #Proteger los atributos con __ (doble guion bajo) y proporcionar métodos getters y setters .
-      # Getters y setters protegidos
-    def get_titulo(self):
-        return self.__titulo
+class Libro(MaterialBiblioteca):
+    def __init__(self, titulo, codigo_inventario, autor, isbn, numero_paginas):
+        super().__init__(titulo, codigo_inventario, ubicacion=None)
+        self.autor = autor
+        self.numero_paginas = numero_paginas
+        self.isbn = isbn
+    
+    def mostrar_info(self):
+        super().mostrar_info()
+        print(f"Autor: {self.autor}")
+        print(f"ISBN: {self.isbn}")
+        print(f"Número de páginas: {self.numero_paginas}")
 
-    def set_titulo(self, titulo):
-        self.__titulo = titulo
 
-    def get_autor(self):
-        return self.__autor
+class Revista(MaterialBiblioteca):
+    def __init__(self, titulo, codigo_inventario, fecha_publicacion, numero_edicion):
+        super().__init__(titulo, codigo_inventario, ubicacion=None)
+        self.numero_edicion = numero_edicion
+        self.fecha_publicacion = fecha_publicacion
+    
+    def mostrar_info(self):
+        super().mostrar_info()
+        print(f"Número: {self.numero_edicion}")
+        print(f"Fecha de publicación: {self.fecha_publicacion}")
 
-    def set_autor(self, autor):
-        self.__autor = autor
+class DVD(MaterialBiblioteca):
+    def __init__(self, titulo, codigo_inventario, duracion, director):
+        super().__init__(titulo, codigo_inventario, ubicacion=None)
+        self.duracion = duracion
+        self.director = director
+    
+    def mostrar_info(self):
+        super().mostrar_info()
+        print(f"Duración: {self.duracion} minutos")
+        print(f"Director: {self.director}")
 
-    def get_codigo_inventario(self):
-        return self.__codigo_inventario
+import pickle
+class GestorBiblioteca:
+    def __init__(self):
+        self.materiales = self.cargar_materiales()
+    
+    def almacenar_materiales(self):
+        pickle.dump(self.materiales, open("materiales_biblioteca.pkl", "wb"))
+        for material in self.materiales:
+            print(f"Material '{material.titulo}' almacenado en el archivo.")
 
-    def set_codigo_inventario(self, codigo):
-        self.__codigo_inventario = codigo
+    def cargar_materiales(self):
+            try:
+                materiales = pickle.load(open("materiales_biblioteca.pkl", "rb"))
+                print("Materiales cargados desde el archivo.")
+                return materiales
+            except FileNotFoundError:
+                print("No se encontró el archivo de materiales.")
+                return []
+    
+        
+    def borrar_materiales(self,codigo_inventario=None):
+        if codigo_inventario:
+
+            self.materiales = []
+            print("Todos los materiales han sido borrados.")
+            self.almacenar_materiales()

@@ -43,7 +43,8 @@ específico. '''
 
 #1. Definir la Clase Abstracta MaterialBiblioteca :
 Atributos comunes: titulo , autor , codigo_inventario .
-Métodos comunes: mostrar_info (método abstracto).
+
+Métodos comunes: mostrar_info (método abstracto). y prestar (para marcar un material como prestado).
 #########################################################################
 Ejercicio POO 1
 ##
@@ -63,8 +64,10 @@ Implementar el método mostrar_info .
 3. Implementar Encapsulamiento:
 Proteger los atributos con __ (doble guion bajo) y proporcionar métodos getters y setters .
 4. Utilizar Polimorfismo:
+
 Crear una lista de materiales de la biblioteca que pueda contener instancias de Libro , Revista
 y DVD .
+
 Implementar una función que recorra la lista y llame al método mostrar_info en cada material,
 aprovechando el polimorfismo.
 5. Crear la Interfaz de Usuario:
