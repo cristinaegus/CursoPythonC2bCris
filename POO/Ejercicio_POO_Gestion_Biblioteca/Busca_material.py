@@ -131,9 +131,33 @@ def registrar_usuario():
     print(f"ID de usuario generado: {id_usuario}")  
     print(f"Bienvenido {nombre_usuario} a la biblioteca.")
     return nombre_usuario
-
-
-def gestionar_prestamos(id_usuario, nombre_usuario):
+if __name__ == "__main__":
+    id_usuario, nombre_usuario = registrar_usuario()
+    if id_usuario and nombre_usuario:
+        print(f"Usuario registrado con ID: {id_usuario} y nombre: {nombre_usuario}")
+    else:
+        print("Registro de usuario fallido.")
+# Ejercicio POO: Gestión de Préstamos de Materiales en una Biblioteca
+# Función para gestionar préstamos de materiales en la biblioteca
+#Guardar los usuarios registrados en un archivo usando pickle
+import pickle
+def almacenar_usuarios(usuarios):
+    with open("usuarios_biblioteca.pkl", "wb") as file:
+        pickle.dump(usuarios, file)
+    print("Usuarios almacenados en el archivo.")
+def cargar_usuarios():
+    try:
+        with open("usuarios_biblioteca.pkl", "rb") as file:
+            usuarios = pickle.load(file)
+        print("Usuarios cargados desde el archivo.")
+        return usuarios
+    except FileNotFoundError:
+        print("No se encontró el archivo de usuarios.")
+        return []
+def gestionar_prestamos(id_usuario, nombre_usuario,codigo_inventario):
+ 
+ while True:
+    usuarios = cargar_usuarios()
     if not id_usuario or not nombre_usuario:
         print("Debe registrarse primero para gestionar préstamos.")
         return
