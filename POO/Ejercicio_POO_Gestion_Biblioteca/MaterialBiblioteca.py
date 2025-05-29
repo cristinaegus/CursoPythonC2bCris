@@ -98,12 +98,20 @@ class Prestamo:
         self.fecha_prestamo = datetime.now()
         self.fecha_devolucion = datetime.now() + timedelta(days=14)  # 2 semanas de préstamo   
 
-def mostrar_info(self):
-    print(f"ID de préstamo: {self.id_prestamo}")
-    print(f"Usuario: {self.usuario.nombre} {self.usuario.apellido}")
-    print(f"Material: {self.material.titulo}")
-    print(f"Fecha de préstamo: {self.fecha_prestamo}")
-    print(f"Fecha de devolución: {self.fecha_devolucion}")
+class Prestamo:
+    def __init__(self, id_prestamo, usuario, material):
+        self.id_prestamo = id_prestamo
+        self.usuario = usuario
+        self.material = material
+        self.fecha_prestamo = datetime.now()
+        self.fecha_devolucion = datetime.now() + timedelta(days=14)  # 2 semanas de préstamo   
+
+    def mostrar_info(self):
+        print(f"ID de préstamo: {self.id_prestamo}")
+        print(f"Usuario: {self.usuario.nombre} {self.usuario.apellido}")
+        print(f"Material: {self.material.titulo}")
+        print(f"Fecha de préstamo: {self.fecha_prestamo}")
+        print(f"Fecha de devolución: {self.fecha_devolucion}")
 import pickle
 class GestorBiblioteca:
     def __init__(self):
@@ -181,19 +189,11 @@ class GestorBiblioteca:
     def mostrar_usuarios(self):
         for usuario in self.usuarios:
             usuario.mostrar_info()
-    
-    def buscar_material(self, codigo_inventario):
-        for material in self.materiales:
-            if material.codigo_inventario == codigo_inventario:
-                material.mostrar_info()
-                return
-        print("Material no encontrado.") 
-
     def prestar_material(self, id_usuario, id_material):
         usuario = next((u for u in self.usuarios if u.id_usuario == id_usuario), None)
         material = next((m for m in self.materiales if m.codigo_inventario == id_material), None)
         if usuario and material:
-            prestamo = Prestamo(usuario, material)
+            prestamo = Prestamo(uuid.uuid4().hex[:6].upper(), usuario, material)
             self.agregar_prestamo(prestamo)
         else:
             print("Usuario o material no encontrado.")
@@ -201,20 +201,3 @@ class GestorBiblioteca:
     def mostrar_prestamos(self):
         for prestamo in self.prestamos:
             prestamo.mostrar_info()
-    # Clase Prestamo agregada para evitar el error de definición
-    class Prestamo:
-        def __init__(self, usuario, material):
-            self.usuario = usuario
-            self.material = material
-            self.fecha_prestamo = datetime.now()
-            self.devuelto = False
-    
-        def mostrar_info(self):
-            print(f"Usuario: {getattr(self.usuario, 'nombre', str(self.usuario))}")
-            print(f"Material: {self.material.titulo}")
-            print(f"Fecha de préstamo: {self.fecha_prestamo.strftime('%Y-%m-%d %H:%M:%S')}")
-            print(f"Devuelto: {'Sí' if self.devuelto else 'No'}")
-
-    def mostrar_prestamos(self):
-        for prestamo in self.prestamos:
-            prestamo.mostrar_info()     
