@@ -1,5 +1,5 @@
 # Busca_material.py
-from Ejercicio_POO_Gestion_Biblioteca.MaterialBiblioteca import Libro, Revista, DVD
+'''from Ejercicio_POO_Gestion_Biblioteca.MaterialBiblioteca import Libro, Revista, DVD
 
 from MaterialBiblioteca import Libro, Revista, DVD
 
@@ -51,20 +51,27 @@ for material in materiales_cargados_del_archivo:
     material.mostrar_info()
 
 lista_materiales =  cargar_materiales()
+'''
+from MaterialBiblioteca import GestorBiblioteca, Libro, Revista, DVD, Usuario
 
-from MaterialBiblioteca import GestorBiblioteca
+import uuid
 
 app = GestorBiblioteca()
 while True:
     print("1. Agregar material")
     print("2. Listar materiales")
     print("3. Buscar material")
-    print("4. Salir")
+    print("4. Borrar material")
+    print("5. Agregar_usuario")
+    print("6. Listar usuarios")
+    print("7. Agregar préstamo")
+    print("8. Listar préstamos")
+    print("q. Salir")
     opcion = input("Seleccione una opción: ")
     if opcion == '1':
         tipo = input("Ingrese el tipo de material (libro, revista, DVD): ").lower()
         titulo = input("Ingrese el título: ")
-        codigo_inventario = input("Ingrese el codigo_inventario: ")
+        codigo_inventario = uuid.uuid4().hex[:6].upper()  # Genera un código único
         if tipo == 'libro':
             autor = input("Ingrese el autor: ")
             num_paginas = int(input("Ingrese el número de páginas: "))
@@ -81,81 +88,33 @@ while True:
         else:
             print("Tipo de material no válido.")
             continue
-        app.materiales.append(material)
-        app.almacenar_materiales()
+        app.agregar_material(material)
         print(f"Material '{material.titulo}' agregado a la biblioteca.")
     elif opcion == '2':
-        for elemento in app.materiales:
-            elemento.mostrar_info()
+        app.mostrar_materiales()
     elif opcion == '3':
         codigo_inventario = input("Ingrese el codigo_inventario del material: ")
-        for material in app.materiales:
-            if material.codigo_inventario == codigo_inventario:
-                material.mostrar_info()
+        app.buscar_material(codigo_inventario)
     elif opcion == '4':
+        codigo_inventario = input("Ingrese el codigo_inventario del material a borrar: ")
+        app.borrar_material(codigo_inventario)
+    elif opcion == '5':
+        nombre = input("Ingrese el nombre del usuario: ")
+        apellido = input("Ingrese el apellido del usuario: ")
+        usuario = Usuario(nombre, apellido)
+        app.agregar_usuario(usuario)
+        print(f"Usuario '{usuario.nombre}' agregado a la biblioteca.")
+    elif opcion == '6':
+        app.mostrar_usuarios()
+    elif opcion == '7':
+        id_usuario = input("Ingrese id_usuario del usuario: ")
+        id_material = input("Ingrese id_material del material: ")
+        app.prestar_material(id_usuario, id_material)
+    elif opcion == '8':
+        app.mostrar_prestamos()
+    elif opcion == 'q':
         print("Saliendo del programa.")
         break
     else:
         print("Opción no válida. Intente de nuevo.")
-import uuid
-#crea un ID único para el usuario
-def crearId_usuario():
-    return str(uuid.uuid4())[:8]  # Genera un ID único de 8 caracteres
-# Función para registrar un usuario en la biblioteca incluido su ID
 
-
-def registrar_usuario():
-    nombre_usuario = input("Ingrese su nombre de usuario: ")
-    if not nombre_usuario:
-        print("El nombre de usuario no puede estar vacío.")
-        return None
-    apellido_usuario = input("Ingrese su apellido: ")
-    if not apellido_usuario:
-        print("El apellido no puede estar vacío.")
-        return None
-    email_usuario = input("Ingrese su correo electrónico: ")
-    if not email_usuario or '@' not in email_usuario:
-        print("El correo electrónico no es válido.")
-        return None
-    id_usuario = crearId_usuario()
-    print(f"ID de usuario generado: {id_usuario}")  
-    print(f"Bienvenido {nombre_usuario} a la biblioteca.")
-    return nombre_usuario
-if __name__ == "__main__":
-    id_usuario, nombre_usuario = registrar_usuario()
-    if id_usuario and nombre_usuario:
-        print(f"Usuario registrado con ID: {id_usuario} y nombre: {nombre_usuario}")
-    else:
-        print("Registro de usuario fallido.")
-# Ejercicio POO: Gestión de Préstamos de Materiales en una Biblioteca
-# Función para gestionar préstamos de materiales en la biblioteca
-#Guardar los usuarios registrados en un archivo usando pickle
-import pickle
-def almacenar_usuarios(usuarios):
-    with open("usuarios_biblioteca.pkl", "wb") as file:
-        pickle.dump(usuarios, file)
-    print("Usuarios almacenados en el archivo.")
-def cargar_usuarios():
-    try:
-        with open("usuarios_biblioteca.pkl", "rb") as file:
-            usuarios = pickle.load(file)
-        print("Usuarios cargados desde el archivo.")
-        return usuarios
-    except FileNotFoundError:
-        print("No se encontró el archivo de usuarios.")
-        return []
-def gestionar_prestamos(id_usuario, nombre_usuario,codigo_inventario):
- 
- while True:
-    usuarios = cargar_usuarios()
-    if not id_usuario or not nombre_usuario:
-        print("Debe registrarse primero para gestionar préstamos.")
-        return
-    print(f"Bienvenido {id_usuario, nombre_usuario} a la gestión de préstamos de materiales.")
-    codigo_inventario = input("Ingrese el codigo_inventario del material a prestar: ")
-    for material in app.materiales:
-        if material.codigo_inventario == codigo_inventario:
-            material.prestar()
-            print(f"Material '{material.titulo}' prestado.")
-            return
-    print("Material no encontrado.")
