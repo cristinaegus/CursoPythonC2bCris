@@ -1,5 +1,7 @@
 from Biblioteca import GestorBiblioteca, Libro, Revista, DVD, Usuario
 from Biblioteca import Prestamo
+import random
+from datetime import datetime
 import uuid
 
 
@@ -26,11 +28,11 @@ while True:
         
             print("Usuario agregado correctamente.")
         elif opcion == '2':
-            app.mostrar_usuarios()
+            app.listar_usuarios()
         elif opcion == '3':
             tipo = input("Tipo de material (libro, revista, dvd): ").lower()
             titulo = input("Título: ")
-            codigo_inventario = uuid.uuid4().hex[:8].upper()
+            codigo_inventario =  random.randint(1, 1000)
             if tipo == 'libro':
                 autor = input("Autor: ")
                 isbn = input("ISBN: ")
@@ -47,7 +49,7 @@ while True:
             else:
                 print("Tipo de material no válido.")
                 continue
-            app.agregar_material(material)
+            app.almacenar_materiales(material)
             print("Material agregado correctamente.")
         elif opcion == '4':
             app.mostrar_materiales()

@@ -129,6 +129,16 @@ class GestorBiblioteca:
         cursor.close()
         conn.close()
         print("Usuarios almacenados en la base de datos.")
+    def listar_usuarios(self):
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id_usuario, nombre, apellido FROM usuarios;")
+        rows = cursor.fetchall()
+        for row in rows:
+            print(f"ID: {row[0]}, Nombre: {row[1]}, Apellido: {row[2]}")
+        cursor.close()
+        conn.close()
+        print("Usuarios listados desde la base de datos.")
     def almacenar_prestamos(self):
         conn = get_connection()
         cursor = conn.cursor()
@@ -145,7 +155,7 @@ class GestorBiblioteca:
         conn.close()
         print("Préstamos almacenados en la base de datos.")
  
-    def almacenar_materiales(self):
+    def almacenar_materiales(self, material):
         # Inserta todos los materiales en la base de datos
         conn = get_connection()
         cursor = conn.cursor()
