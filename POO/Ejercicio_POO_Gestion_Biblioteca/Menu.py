@@ -1,90 +1,74 @@
-from MaterialBiblioteca  import MaterialBiblioteca
-from MaterialBiblioteca import Libro,Revista,DVD
+from Biblioteca import GestorBiblioteca, Libro, Revista, DVD, Usuario
+from Biblioteca import Prestamo
+import uuid
 
 
 
-from datetime import date
+app = GestorBiblioteca()
+while True:
+        print("\n--- Menú Biblioteca ---")
+        print("1. Agregar Usuario")
+        print("2. Listar Usuarios")
+        print("3. Agregar Material")
+        print("4. Listar Materiales")
+        print("5. Buscar Material por Código")
+        print("6. Borrar Material")
+        print("7. Agregar Préstamo")
+        print("8. Listar Préstamos")
+        print("9. Salir")
+        opcion = input("Seleccione una opción: ")
 
-
-class BuscaMaterial:
-    def __init__(self):
-        self.materiales = []
-        # Materiales de ejemplo
-        libro1 = Libro("El Quijote", "Miguel de Cervantes", "12345", "978-3-16-148410-0", 500)
-        revista1 = Revista("National Geographic", "67890", date(2010, 7, 16), 125)
-        dvd1 = DVD("Inception", "11223", 148, "Christopher Nolan")
-        self.materiales.extend([libro1, revista1, dvd1])
-
-    def menu(self):
-        print("Bienvenido a la Biblioteca")
-        print("1. Agregar Material")
-        print("2. Listar Materiales")
-        print("3. Buscar Material por Título")
-        print("4. Mostrar Información de un Material")
-        print("5. Salir")
+        if opcion == '1':
+            nombre = input("Nombre del usuario: ")
+            apellido = input("Apellido del usuario: ")
+            usuario = Usuario(nombre, apellido)
+            app.almacenar_usuarios([usuario])
         
-        while True:
-            opcion = input("Seleccione una opción: ")
-            if opcion == '1':
-                self.agregar_material()
-                print("Agregando material...")
-                agregar_material = MaterialBiblioteca.MaterialBiblioteca()
-                agregar_material.agregar_material()
-                print("Material agregado exitosamente.")
-            elif opcion == '2':
-                self.listar_materiales()
-                listar_materiales = MaterialBiblioteca.MaterialBiblioteca()
-                listar_materiales.listar_materiales()
-            elif opcion == '3':
-                self.buscar_material()
-            elif opcion == '4':
-                self.mostrar_informacion_material()
-            elif opcion == '5':
-                print("Gracias por usar la Biblioteca. ¡Hasta luego!")
-                break
+            print("Usuario agregado correctamente.")
+        elif opcion == '2':
+            app.mostrar_usuarios()
+        elif opcion == '3':
+            tipo = input("Tipo de material (libro, revista, dvd): ").lower()
+            titulo = input("Título: ")
+            codigo_inventario = uuid.uuid4().hex[:8].upper()
+            if tipo == 'libro':
+                autor = input("Autor: ")
+                isbn = input("ISBN: ")
+                num_paginas = int(input("Número de páginas: "))
+                material = Libro(titulo, codigo_inventario, autor, isbn, num_paginas)
+            elif tipo == 'revista':
+                fecha_publicacion = input("Fecha de publicación (YYYY-MM-DD): ")
+                numero_edicion = int(input("Número de edición: "))
+                material = Revista(titulo, codigo_inventario, fecha_publicacion, numero_edicion)
+            elif tipo == 'dvd':
+                duracion = int(input("Duración en minutos: "))
+                director = input("Director: ")
+                material = DVD(titulo, codigo_inventario, duracion, director)
             else:
-                print("Opción no válida. Intente de nuevo.")  
-
-    # Métodos para agregar, listar, buscar y mostrar información de materiales
-    def agregar_material(self):
-        input("Introduce el tipo de material ")
-        print("Agregando material...")
-
-    def listar_material_por_codigo(self, codigo_inventario):
-        # Suponiendo que tienes una lista llamada self.materiales con todos los materiales agregados
-        encontrados = [mat for mat in self.materiales if mat.get_codigo_inventario() == codigo_inventario]
-        if encontrados:
-            print(f"Material(es) con código {codigo_inventario}:")
-            for mat in encontrados:
-                mat.mostrar_info()
+                print("Tipo de material no válido.")
+                continue
+            app.agregar_material(material)
+            print("Material agregado correctamente.")
+        elif opcion == '4':
+            app.mostrar_materiales()
+        elif opcion == '5':
+            codigo = input("Ingrese el código de inventario a buscar: ")
+            app.buscar_material(codigo)
+        elif opcion == '6':
+            codigo = input("Ingrese el código de inventario del material a borrar: ")
+            app.borrar_material(codigo)
+        elif opcion == '7':
+            id_usuario = input("ID del usuario: ")
+            id_material = input("Código de inventario del material: ")
+            app.prestar_material(id_usuario, id_material)
+        elif opcion == '8':
+            app.mostrar_prestamos()
+        elif opcion == '9':
+            print("Gracias por usar la Biblioteca. ¡Hasta luego!")
+            break
         else:
-            print(f"No se encontró material con el código {codigo_inventario}.")
-        codigo = input("Introduce el código de inventario a buscar: ")
-        self.listar_material_por_codigo(codigo)
+            print("Opción no válida. Intente de nuevo.")
 
-    def buscar_material(self):
-        codigo = input("Introduce el código de inventario a buscar: ")
-        self.listar_material_por_codigo(codigo)
+if __name__ == "__main__":
+    app = GestorBiblioteca()
 
-    def mostrar_informacion_material(self):
-        codigo = input("Introduce el código de inventario del material: ")
-        encontrado = next((mat for mat in self.materiales if mat.get_codigo_inventario() == codigo), None)
-        if encontrado:
-            print("Información del Material:")
-            print(encontrado.mostrar_info())
-        else:
-            print(f"No se encontró material con el código {codigo}.")
-
-    def mostrar_tabla_materiales(self, materiales):
-        if not materiales:
-            print("No hay materiales para mostrar.")
-            return
-        print(f"{'Título':<30} {'Autor':<20} {'Código Inventario':<20}")
-        print("-" * 70)
-        for mat in materiales:
-            print(f"{mat.get_titulo():<30} {mat.get_autor():<20} {mat.get_codigo_inventario():<20}")
-
-    # Ejemplo de uso dentro de tu clase:
-    def listar_materiales(self):
-        # Suponiendo que tienes una lista self.materiales
-        self.mostrar_tabla_materiales(self.materiales)
